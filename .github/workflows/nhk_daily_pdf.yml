@@ -38,7 +38,7 @@ jobs:
       # 5. Ejecutar la suite de pruebas en modo Headless
       - name: Run Pytest Scraper
         run: |
-          pytest --browser chromium --headless
+          pytest --browser chromium
 
       # 6. Subir el PDF generado como un Artifact descargable en GitHub
       - name: Upload PDF Artifact
