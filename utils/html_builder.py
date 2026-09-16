@@ -1,60 +1,68 @@
-def build_html_content(body_html: str, image_url: str = "", article_url: str = "") -> str:
-    """Genera la plantilla HTML formateada con furigana, enlace original e imagen."""
-    image_element = (
-        f'<div style="text-align: center; margin: 20px 0;">'
-        f'<img src="{image_url}" style="max-width: 100%; height: auto; border-radius: 8px;">'
-        f'</div>'
-        if image_url
-        else ""
-    )
-
-    link_element = ""
-    if article_url:
-        link_element = f"""
-        <div style="margin: 15px 0; text-align: center;">
-            <a href="{article_url}" target="_blank" style="
-                display: inline-block;
-                background-color: #e60012;
-                color: white;
-                padding: 10px 20px;
-                text-decoration: none;
-                border-radius: 20px;
-                font-weight: bold;
-                font-size: 14px;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            ">ニュースのページを開く (Ver Noticia Original y Audio)</a>
+def build_html_content(body_html: str, image_url: str, article_url: str) -> str:
+    return f"""
+    <!DOCTYPE html>
+    <html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            @page {{
+                size: A4;
+                margin: 20mm 15mm 20mm 15mm;
+            }}
+            body {{
+                font-family: "Hiragino Sans", "Meiryo", "Noto Sans CJK JP", sans-serif;
+                line-height: 1.8;
+                color: #222222;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 10px;
+            }}
+            /* Ocultar elementos flotantes y botones multimedia que ensucian el PDF */
+            .article-main__tools,
+            .player,
+            #js-article-tools,
+            .dicWin,
+            button {{
+                display: none !important;
+            }}
+            .main-image {{
+                text-align: center;
+                margin-bottom: 20px;
+            }}
+            .main-image img {{
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+            }}
+            .article-body {{
+                font-size: 16px;
+                word-wrap: break-word;
+            }}
+            /* Estilo nativo para el Furigana (Ruby) */
+            ruby {{
+                ruby-align: center;
+            }}
+            rt {{
+                font-size: 0.65em;
+                color: #555555;
+            }}
+            .footer-link {{
+                margin-top: 30px;
+                padding-top: 10px;
+                border-top: 1px solid #eeeeee;
+                font-size: 12px;
+                color: #0066cc;
+            }}
+        </style>
+    </head>
+    <body>
+        {"<div class='main-image'><img src='" + image_url + "' /></div>" if image_url else ""}
+        <div class="article-body">
+            {body_html}
         </div>
-        """
-
-    return f"""<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>NHK Easy News Article</title>
-    <style>
-        body {{
-            font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            line-height: 2.2;
-            color: #333;
-        }}
-        h1, h1.article-main__title {{
-            border-bottom: 2px solid #e60012;
-            padding-bottom: 10px;
-            line-height: 2.5;
-            font-size: 24px;
-        }}
-        ruby rt {{
-            font-size: 0.65em;
-            color: #666;
-        }}
-    </style>
-</head>
-<body>
-    {link_element}
-    {image_element}
-    <div>{body_html}</div>
-</body>
-</html>"""
+        <div class="footer-link">
+            <a href="{article_url}">Ver noticia original en NHK Easy News</a>
+        </div>
+    </body>
+    </html>
+    """
