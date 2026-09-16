@@ -5,6 +5,10 @@ from utils.html_builder import build_html_content
 
 def test_export_latest_nhk_article_to_pdf(nhk_page, page):
     nhk_page.open_first_article()
+    
+    # 1. Esperar a que la página original cargue imágenes y scripts por completo
+    page.wait_for_load_state("networkidle")
+
     data = nhk_page.get_article_data_raw_html()
 
     assert data["title_text"], "El título no debería estar vacío"
@@ -15,7 +19,8 @@ def test_export_latest_nhk_article_to_pdf(nhk_page, page):
         article_url=data["article_url"],
     )
 
-    page.set_content(html_content, wait_until="load")
+    # 2. Cambiar 'load' por 'networkidle' para renderizar fuentes e imágenes del HTML generado
+    page.set_content(html_content, wait_until="networkidle")
     page.emulate_media(media="screen")
 
     # Asegura crear la carpeta donde buscará GitHub Actions
