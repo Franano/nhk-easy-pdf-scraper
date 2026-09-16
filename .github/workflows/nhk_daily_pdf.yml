@@ -35,10 +35,10 @@ jobs:
         run: |
           npx playwright install --with-deps chromium
 
-      # 5. Ejecutar la suite de pruebas en modo Headless
+      # 5. Ejecutar la suite de pruebas
       - name: Run Pytest Scraper
         run: |
-          pytest --browser chromium
+          xvfb-run pytest --browser chromium
 
       # 6. Subir el PDF generado como un Artifact descargable en GitHub
       - name: Upload PDF Artifact
