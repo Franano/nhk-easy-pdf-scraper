@@ -1,0 +1,50 @@
+name: NHK Easy Daily PDF Generator
+
+on:
+  # Permite ejecutar el flujo manualmente desde el botón de GitHub cuando quieras
+  workflow_dispatch:
+  
+  # Ejecución automática diaria usando expresiones Cron (ej: 07:00 AM UTC todos los días)
+  schedule:
+    - cron: '0 8 * * 5'
+
+jobs:
+  run-nhk-scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Copiar el código del repositorio a la máquina virtual
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Configurar Python en el runner
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # 3. Instalar dependencias de Python
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4. Instalar navegadores y dependencias del sistema necesarias para Playwright
+      - name: Install Playwright Browsers with Dependencies
+        run: |
+          npx playwright install --with-deps chromium
+
+      # 5. Ejecutar la suite de pruebas en modo Headless
+      - name: Run Pytest Scraper
+        run: |
+          pytest --browser chromium --headless
+
+      # 6. Subir el PDF generado como un Artifact descargable en GitHub
+      - name: Upload PDF Artifact
+        uses: actions/upload-artifact@v4
+        if: always() # Guarda el reporte o PDF incluso si hubo alguna falla para inspeccionarlo
+        with:
+          name: nhk-daily-pdf
+          path: noticias_pdf/*.pdf
+          retention-days: 7

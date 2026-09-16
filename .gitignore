@@ -1,0 +1,22 @@
+# Entorno virtual de Python
+venv/
+.venv/
+env/
+
+# Archivos compilados y caché de Python
+__pycache__/
+*.py[cod]
+
+# Caché y archivos temporales de Pytest y Playwright
+.pytest_cache/
+test-results/
+playwright-report/
+
+# Carpeta de salida de los PDFs (ya que se generan dinámicamente en CI/CD)
+noticias_pdf/
+article.pdf
+article.html
+
+# Configuración del IDE
+.vscode/
+.idea/
