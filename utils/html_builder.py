@@ -1,13 +1,5 @@
-def build_html_content(body_html: str, image_url: str = "", article_url: str = "") -> str:
+def build_html_content(body_html: str, article_url: str = "") -> str:
     """Genera la plantilla HTML formateada con furigana, enlace original e imagen."""
-    image_element = (
-        f'<div style="text-align: center; margin: 20px 0;">'
-        f'<img src="{image_url}" style="max-width: 100%; height: auto; border-radius: 8px;">'
-        f'</div>'
-        if image_url
-        else ""
-    )
-
     link_element = ""
     if article_url:
         link_element = f"""
@@ -54,7 +46,6 @@ def build_html_content(body_html: str, image_url: str = "", article_url: str = "
 </head>
 <body>
     {link_element}
-    {image_element}
     <div>{body_html}</div>
 </body>
 </html>"""

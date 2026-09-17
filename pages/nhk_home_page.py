@@ -12,11 +12,6 @@ class NHKHomePage(BasePage):
     ARTICLE_TITLE = "h1.article-title"
     ARTICLE_BODY = "#js-article-body, .article-body, article.easy-article"
 
-    PRIMARY_IMAGE_SELECTORS = [
-        "#js-article-figure img",
-        ".article-main__figure img",
-        "figure.easy-article-img img",
-    ]
 
     # --- MÉTODOS DE ACCIÓN ---
     def open(self):
@@ -42,20 +37,6 @@ class NHKHomePage(BasePage):
         self.page.locator(self.ARTICLE_TITLE).first.wait_for(
             state="visible", timeout=10000
         )
-
-    def _extract_image_url(self) -> str:
-        """Extrae la URL de la imagen principal evitando iconos."""
-        for selector in self.PRIMARY_IMAGE_SELECTORS:
-            img_locator = self.page.locator(selector).first
-            if img_locator.count() > 0 and img_locator.is_visible():
-                src = (
-                    img_locator.get_attribute("src")
-                    or img_locator.get_attribute("data-src")
-                    or ""
-                )
-                if src and not any(x in src.lower() for x in ["icon", "logo", "player"]):
-                    return urljoin(self.page.url, src)
-        return ""
 
     def get_article_data_raw_html(self) -> dict:
         """Extrae los elementos de la noticia limpiando reproductores y herramientas."""
@@ -87,6 +68,5 @@ class NHKHomePage(BasePage):
             if title_locator.count() > 0
             else "",
             "body_html": body_html.strip(),
-            "image_url": self._extract_image_url(),
             "article_url": self.page.url,
         }

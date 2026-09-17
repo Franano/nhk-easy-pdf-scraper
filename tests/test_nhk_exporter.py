@@ -15,11 +15,10 @@ def test_export_latest_nhk_article_to_pdf(nhk_page, page):
 
     html_content = build_html_content(
         body_html=data["body_html"],
-        image_url=data["image_url"],
         article_url=data["article_url"],
     )
 
-    # 2. Cambiar 'load' por 'networkidle' para renderizar fuentes e imágenes del HTML generado
+    # 2. Cambiar 'load' por 'networkidle' para renderizar fuentes
     page.set_content(html_content, wait_until="networkidle")
     page.emulate_media(media="screen")
 
