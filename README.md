@@ -1,6 +1,6 @@
 # NHK News Easy - Daily PDF Scraper & Exporter
 
-[![NHK Scraper CI](https://github.com/TU_USUARIO/TU_REPOSITORIO/actions/workflows/nhk_daily_pdf.yml/badge.svg)](https://github.com/TU_USUARIO/TU_REPOSITORIO/actions/workflows/nhk_daily_pdf.yml)
+[![NHK Scraper CI](https://github.com/Franano/nhk-easy-pdf-scraper/actions/workflows/nhk_daily_pdf.yml/badge.svg)](https://github.com/TU_USUARIO/TU_REPOSITORIO/actions/workflows/nhk_daily_pdf.yml)
 
 Un pipeline automatizado de Web Scraping y Testing diseñado con Playwright y Pytest bajo el patrón Page Object Model (POM). Extrae diariamente la última noticia en japonés simplificado de NHK News Easy, sanitiza el contenido HTML (furigana y estilos) y genera un documento PDF de lectura optimizado listo para descargar.
 
@@ -49,8 +49,8 @@ Un pipeline automatizado de Web Scraping y Testing diseñado con Playwright y Py
 ### Pasos
 
 1. Clonar el repositorio:
-   git clone https://github.com/TU_USUARIO/TU_REPOSITORIO.git
-   cd TU_REPOSITORIO
+   git clone https://github.com/Franano/nhk-easy-pdf-scraper.git
+   cd nhk-easy-pdf-scraper
 
 2. Crear y activar entorno virtual:
    python -m venv venv
